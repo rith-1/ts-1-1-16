@@ -5,7 +5,7 @@
  */
 public class TopSecret {
     public static void main(String[] args) {
-        Program Controller user = new ProgramController;
+        ProgramController user = new ProgramController();
 
         //if there are no arguments, list the numbered files available to display
         if (args.length == 0){
