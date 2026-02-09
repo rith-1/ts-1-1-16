@@ -4,18 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.nio.file.*;
 
 /**
- * Implementation of a substitution cipher for encrypting and decrypting text.
- * This utility class provides a simple substitution cipher mechanism where each
- * character in the plaintext is replaced with a corresponding character
- * according to a cipher key loaded from a file.
- * Cipher Key Format:
- * The cipher key file must contain exactly two lines:
- * Line 1: Original alphabet characters
- * Line 2: Corresponding cipher alphabet characters
- * Both lines must have the same length, and each character in line 1 maps to
- * the character at the same position in line 2.
+ * Substitution cipher that encrypts and decrypts text using a key file.
+ * Key file format: two equal-length lines where each character in line 1
+ * maps to the corresponding character in line 2.
  *
  * @see CipherInterface
  */
@@ -25,89 +21,67 @@ public class Cipher implements CipherInterface {
     private final HashMap<Character, Character> decryptMap;
 
     /**
-     * Constructs a new Cipher instance and initializes the encryption and
-     * decryption mappings.
-     * This constructor loads the cipher key from the file specified by
-     * CIPHER_KEY_PATH and creates both forward (encryption) and reverse
-     * (decryption) character mappings. The cipher key is validated before
-     * use to ensure the proper format and integrity.
+     * Constructs a Cipher by loading and validating the key file,
+     * then creating encryption and decryption mappings.
      * 
-     * @throws InvalidCipherKeyException if the cipher key file is invalid,
-     *                                   missing, contains malformed data, or cannot
-     *                                   be properly parsed
+     * @throws InvalidCipherKeyException if the key file is invalid or cannot be
+     *                                   loaded
      */
     public Cipher() throws InvalidCipherKeyException {
-        this.encryptMap = loadCipherKey();
+        this.encryptMap = createEncryptMap();
         this.decryptMap = createDecryptMap();
     }
 
     /**
-     * Loads the cipher key from the specified file and creates the encryption
-     * character mapping.
-     * This method reads two lines from the cipher key file:
-     * 1. The original alphabet characters
-     * 2. The corresponding cipher alphabet characters
-     * For each position i, the character at original.charAt(i) maps to
-     * cipher.charAt(i). This mapping is used for encryption.
-     * Validation Rules:
-     * - The key file must exist at CIPHER_KEY_PATH
-     * - The file must contain exactly two lines
-     * - Both lines must have equal length
-     * - Neither line can be null or empty
-     * - Each character in the first line must be unique
-     * - Each character in the second line must be unique
+     * Loads the cipher key file, validates its format, then returns the original
+     * and cipher character arrays.
      * 
-     * @return a HashMap mapping original characters to their cipher equivalents
-     * @throws InvalidCipherKeyException if the cipher key file is invalid or
-     *                                   cannot be properly loaded
+     * @return
+     * @throws InvalidCipherKeyException
      */
-    private HashMap<Character, Character> loadCipherKey() throws InvalidCipherKeyException {
-        HashMap<Character, Character> map = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(CIPHER_KEY_PATH))) {
-            String original = br.readLine();
-            String cipher = br.readLine();
+    private char[][] loadCipherKeys() throws InvalidCipherKeyException {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(CIPHER_KEY_PATH));
 
-            // Validate lines exist and are not null
-            if (original == null || cipher == null) {
+            // Validate both lines exist
+            if (lines.size() != 2) {
                 throw new InvalidCipherKeyException(
-                        "Cipher key file must contain exactly two lines. Found: " +
-                                (original == null && cipher == null ? "0" : "1"));
+                        "Cipher key file must contain exactly two lines. Found: " + lines.size());
             }
 
-            // Validate lines are not empty
+            String original = lines.get(0);
+            String cipher = lines.get(1);
+
+            // Validate non-empty
             if (original.isEmpty() || cipher.isEmpty()) {
                 throw new InvalidCipherKeyException(
                         "Neither line in the cipher key file can be empty.");
             }
 
-            // Validate lines have equal length
+            // Validate equal length
             if (original.length() != cipher.length()) {
                 throw new InvalidCipherKeyException(
-                        "Cipher key lines must have equal length. " +
-                                "Original: " + original.length() + ", Cipher: " + cipher.length());
+                        "Cipher key lines must have equal length.\n" +
+                                "Original: " + original.length() + "\nCipher: " + cipher.length());
             }
 
-            // Validate no duplicate characters in original alphabet
+            // Validate no duplicates in original
             if (hasDuplicates(original)) {
                 throw new InvalidCipherKeyException(
                         "Original alphabet contains duplicate characters.");
             }
 
-            // Validate no duplicate characters in cipher alphabet
+            // Validate no duplicates in cipher
             if (hasDuplicates(cipher)) {
                 throw new InvalidCipherKeyException(
                         "Cipher alphabet contains duplicate characters.");
             }
 
-            // Build the mapping
-            for (int i = 0; i < original.length(); i++) {
-                map.put(original.charAt(i), cipher.charAt(i));
-            }
+            return new char[][] { original.toCharArray(), cipher.toCharArray() };
         } catch (IOException e) {
             throw new InvalidCipherKeyException(
                     "Failed to read cipher key file at " + CIPHER_KEY_PATH + ": " + e.getMessage(), e);
         }
-        return map;
     }
 
     /**
@@ -118,8 +92,8 @@ public class Cipher implements CipherInterface {
      */
     private boolean hasDuplicates(String str) {
         java.util.HashSet<Character> seen = new java.util.HashSet<>();
-        for (char c : str.toCharArray()) {
-            if (!seen.add(c)) {
+        for (char character : str.toCharArray()) {
+            if (!seen.add(character)) {
                 return true;
             }
         }
@@ -127,15 +101,30 @@ public class Cipher implements CipherInterface {
     }
 
     /**
-     * Creates the decryption character mapping by reversing the encryption mapping.
-     * This method iterates through all entries in encryptMap and creates
-     * the inverse mapping. For each pair (original, cipher) in the encryption map,
-     * this creates the pair (cipher, original) in the decryption map.
-     * This approach ensures that encryption and decryption are symmetric
-     * operations: decrypt(encrypt(text)) == text for all text.
+     * Creates the encryption mapping from the original characters to the cipher
+     * characters.
      * 
-     * @return a HashMap mapping cipher characters back to their original
-     *         equivalents
+     * @return HashMap mapping original characters to cipher characters
+     * @throws InvalidCipherKeyException if the key file is invalid
+     */
+
+    private HashMap<Character, Character> createEncryptMap() throws InvalidCipherKeyException {
+        char[][] keys = loadCipherKeys();
+        char[] original = keys[0];
+        char[] cipher = keys[1];
+
+        HashMap<Character, Character> map = new HashMap<>();
+        for (int i = 0; i < original.length; i++) {
+            map.put(original[i], cipher[i]);
+        }
+
+        return map;
+    }
+
+    /**
+     * Creates the decryption mapping by reversing the encryption map.
+     * 
+     * @return HashMap mapping cipher characters to original characters
      */
     private HashMap<Character, Character> createDecryptMap() {
         HashMap<Character, Character> map = new HashMap<>();
@@ -146,15 +135,11 @@ public class Cipher implements CipherInterface {
     }
 
     /**
-     * Encrypts the given plaintext using the cipher's character mapping.
-     * Each character in the plaintext is looked up in the encryption map and
-     * replaced with its corresponding cipher character. Characters not found in
-     * the mapping (such as punctuation or whitespace not defined in the cipher
-     * key) are preserved unchanged in the output.
+     * Encrypts plaintext using the cipher mapping.
+     * Unmapped characters are preserved unchanged.
      * 
-     * @param plaintext the text to be encrypted; must not be null
-     * @return the encrypted version of the plaintext with mapped characters
-     *         substituted
+     * @param plaintext the text to encrypt
+     * @return the encrypted text
      */
     @Override
     public String encrypt(String plaintext) {
@@ -166,16 +151,11 @@ public class Cipher implements CipherInterface {
     }
 
     /**
-     * Decrypts the given ciphertext using the cipher's character mapping.
-     * Each character in the ciphertext is looked up in the decryption map and
-     * replaced with its corresponding original character. Characters not found
-     * in the mapping (such as punctuation or whitespace not defined in the
-     * cipher key) are preserved unchanged in the output.
-     * This method is the inverse of encrypt(String), such that:
-     * decrypt(encrypt(text)).equals(text) for all text strings.
+     * Decrypts ciphertext using the cipher mapping.
+     * Unmapped characters are preserved unchanged.
      * 
-     * @param ciphertext the encrypted text to be decrypted; must not be null
-     * @return the decrypted version of the ciphertext (original plaintext)
+     * @param ciphertext the text to decrypt
+     * @return the decrypted text
      */
     @Override
     public String decrypt(String ciphertext) {

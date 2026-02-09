@@ -2,8 +2,7 @@
 
 ## Overview
 
-The Cipher utility provides an implementation of a cipher for encrypting and decrypting text with built-in validation of the cipher key to ensure data integrity and proper format.
-
+The Cipher utility provides an implementation of a cipher for encrypting and decrypting text with built-in validation of the cipher key.
 ---
 
 ## Architecture
@@ -30,17 +29,19 @@ The Cipher utility provides an implementation of a cipher for encrypting and dec
 │ + Cipher()              │
 │ + encrypt(String)       │
 │ + decrypt(String)       │
-│ - loadCipherKey()       │
+│ - loadCipherKeys()      │
+│ - createEncryptMap()    │
 │ - createDecryptMap()    │
+│ - hasDuplicates()       │
 └─────────────────────────┘
 ```
 
 ### Components
 
 - **`CipherInterface`**: Defines the contract for cipher implementations
-- **`Cipher`**: Concrete implementation using HashMap-based character substitution with cipher key validation
-- **`InvalidCipherKeyException`**: Custom exception thrown when cipher key validation fails
-- **`CipherTest`**: Comprehensive test suite with 26 test cases
+- **`Cipher`**: HashMap-based substitution cipher with key file validation
+- **`InvalidCipherKeyException`**: Thrown when cipher key validation fails
+- **`CipherTest`**: 25 comprehensive test cases
 
 ---
 
@@ -105,33 +106,25 @@ app.processFile("input.txt", "output.enc");
 
 #### `String encrypt(String plaintext)`
 
-Encrypts the given plaintext using the cipher's character mapping.
+Encrypts plaintext using the cipher mapping.
 
 **Parameters:**
-- `plaintext` - The text to be encrypted (must not be null)
+- `plaintext` - Text to encrypt
 
 **Returns:**
-- The encrypted version of the plaintext
-
-**Behavior:**
-- Characters in the cipher key are substituted
-- Unmapped characters (punctuation, whitespace, etc.) remain unchanged
+- Encrypted text with mapped characters substituted, unmapped characters unchanged
 
 ---
 
 #### `String decrypt(String ciphertext)`
 
-Decrypts the given ciphertext using the cipher's character mapping.
+Decrypts ciphertext using the cipher mapping (inverse of `encrypt()`).
 
 **Parameters:**
-- `ciphertext` - The encrypted text to be decrypted (must not be null)
+- `ciphertext` - Text to decrypt
 
 **Returns:**
-- The decrypted version of the ciphertext (original plaintext)
-
-**Behavior:**
-- Inverse operation of `encrypt()`
-- Guarantees: `decrypt(encrypt(text)).equals(text)` for all text
+- Decrypted text; `decrypt(encrypt(text)).equals(text)` for all text
 
 ---
 
@@ -143,14 +136,10 @@ Decrypts the given ciphertext using the cipher's character mapping.
 public Cipher();
 ```
 
-Constructs a new Cipher instance by loading the cipher key from `ciphers/key.txt` and initializing both encryption and decryption mappings.
-
-**Error Handling:**
-- If the key file cannot be read, an `InvalidCipherKeyException` is thrown
-- If the key file format is invalid, detailed error messages explain the validation failure
+Loads cipher key from `ciphers/key.txt` and initializes encryption/decryption mappings.
 
 **Throws:**
-- `InvalidCipherKeyException` - if the cipher key is missing, malformed, or fails validation
+- `InvalidCipherKeyException` - if key file is missing, malformed, or fails validation
 
 ---
 
@@ -234,44 +223,68 @@ bcdefghijklmnopqrstuvwxyza
 
 ### Test Coverage
 
-The `CipherTest` suite provides comprehensive validation with **26 test cases**:
+The `CipherTest` suite includes **29 comprehensive test cases** organized into the following categories:
 
-#### Cipher Key Validation Tests (5 tests)
-- `testCipherKeyMissingFile()` - Missing cipher key file handling
-- `testCipherKeyUnequalLength()` - Lines with different lengths
-- `testCipherKeyDuplicateInOriginal()` - Duplicate characters in original alphabet
-- `testCipherKeyDuplicateInCipher()` - Duplicate characters in cipher alphabet
-- `testCipherKeyEmptyLine()` - Empty lines in cipher key file
+#### Key Validation Tests (5)
+Tests that verify the cipher key file is properly validated:
 
-#### Basic Functionality (3 tests)
-- `testBasicEncryption()` - Simple character substitution
-- `testBasicDecryption()` - Reverse substitution
-- `testEncryptDecryptRoundTrip()` - Symmetric operation validation
+1. **`testCipherKeyMissingFile`** - Verifies exception thrown when key file doesn't exist
+2. **`testCipherKeyUnequalLength`** - Validates error when original and cipher alphabets have different lengths
+3. **`testCipherKeyDuplicateInOriginal`** - Ensures duplicate characters in original alphabet are detected
+4. **`testCipherKeyDuplicateInCipher`** - Ensures duplicate characters in cipher alphabet are detected
+5. **`testCipherKeyEmptyLine`** - Validates error when cipher key file contains empty lines
 
-#### Edge Cases (4 tests)
-- `testEmptyString()` - Empty input handling
-- `testSingleCharacter()` - Minimal input
-- `testLongText()` - Large input (60+ characters)
+#### Basic Operations Tests (3)
+Core functionality tests:
 
-#### Character Types (5 tests)
-- `testFullAlphabet()` - All lowercase letters
-- `testNumbers()` - Numeric characters
-- `testCaseSensitivity()` - Upper vs. lowercase
-- `testUnmappedCharacters()` - Special characters
-- `testWhitespace()` - Space preservation
+6. **`testBasicEncryption`** - Tests simple encryption ("abc" → "bcd")
+7. **`testBasicDecryption`** - Tests simple decryption ("bcd" → "abc")
+8. **`testEncryptDecryptRoundTrip`** - Verifies encrypt→decrypt returns original text
 
-#### Validation Tests (3 tests)
-- `testEncryptionChangesText()` - Ensures actual transformation
-- `testDecryptionChangesText()` - Ensures reverse transformation
-- `testMixedContent()` - Combination of mapped/unmapped
+#### Edge Cases Tests (5)
+Tests for boundary conditions and special scenarios:
 
-#### Real Data Tests (6 tests)
-- `testCarnivoreEncryption()` - Encrypt sample file
-- `testCarnivoreDecryption()` - Decrypt sample file
-- `testCarnivoreRoundTrip()` - Full cycle validation
-- `testCointelproEncryption()` - Encrypt sample file
-- `testCointelproDecryption()` - Decrypt sample file
-- `testCointelproRoundTrip()` - Full cycle validation
+9. **`testEmptyString`** - Handles empty string input for both encrypt and decrypt
+10. **`testSingleCharacter`** - Tests encryption/decryption of single character
+11. **`testLongText`** - Validates handling of long text strings
+12. **`testMixedContent`** - Tests text with both mapped and unmapped characters
+13. **`testDoubleRoundTrip`** - Tests double encryption and double decryption round-trip
+
+#### Character Types Tests (5)
+Tests for different character categories:
+
+14. **`testFullAlphabet`** - Encrypts and decrypts entire lowercase alphabet
+15. **`testNumbers`** - Verifies numeric characters are handled correctly
+16. **`testCaseSensitivity`** - Ensures uppercase and lowercase produce different results
+17. **`testUnmappedCharacters`** - Verifies unmapped characters (e.g., special symbols) remain unchanged
+18. **`testWhitespace`** - Tests that whitespace is preserved during encryption/decryption
+
+#### Transformation Tests (2)
+Validates that cipher actually transforms text:
+
+19. **`testEncryptionChangesText`** - Confirms encryption modifies the input
+20. **`testDecryptionChangesText`** - Confirms decryption modifies the input
+
+#### Null Handling Tests (2)
+Tests for null input handling:
+
+21. **`testNullEncryptInput`** - Verifies NullPointerException thrown for null encrypt input
+22. **`testNullDecryptInput`** - Verifies NullPointerException thrown for null decrypt input
+
+#### Instance Tests (1)
+Tests for proper instantiation:
+
+23. **`testRepeatedInstantiation`** - Verifies multiple Cipher instances behave consistently
+
+#### Real Data Tests (6)
+Integration tests using actual data files:
+
+24. **`testCarnivoreEncryption`** - Encrypts carnivore.txt and compares to carnivore.cip
+25. **`testCarnivoreDecryption`** - Decrypts carnivore.cip and compares to carnivore.txt
+26. **`testCointelproEncryption`** - Encrypts cointelpro.txt and compares to cointelpro.cip
+27. **`testCointelproDecryption`** - Decrypts cointelpro.cip and compares to cointelpro.txt
+28. **`testCarnivoreRoundTrip`** - Verifies encrypt→decrypt round-trip with carnivore.txt
+29. **`testCointelproRoundTrip`** - Verifies encrypt→decrypt round-trip with cointelpro.txt
 
 ### Running Tests
 
@@ -291,17 +304,11 @@ The `CipherTest` suite provides comprehensive validation with **26 test cases**:
 
 ```java
 Cipher cipher = new Cipher();
-
 String message = "Meet me at noon";
 String encrypted = cipher.encrypt(message);
+String decrypted = cipher.decrypt(encrypted);
+
 System.out.println("Original:  " + message);
 System.out.println("Encrypted: " + encrypted);
-System.out.println("Decrypted: " + cipher.decrypt(encrypted));
-```
-
-**Output:**
-```
-Original:  Meet me at noon
-Encrypted: Nffu nf bu oppo
-Decrypted: Meet me at noon
+System.out.println("Decrypted: " + decrypted);
 ```

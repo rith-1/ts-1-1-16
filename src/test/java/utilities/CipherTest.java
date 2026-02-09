@@ -245,6 +245,37 @@ public class CipherTest {
         assertNotEquals(ciphertext, decrypted);
     }
 
+    // Test null input handling
+    @Test
+    void testNullEncryptInput() {
+        assertThrows(NullPointerException.class, () -> this.cipher.encrypt(null));
+    }
+
+    // Test null decrypt input
+    @Test
+    void testNullDecryptInput() {
+        assertThrows(NullPointerException.class, () -> this.cipher.decrypt(null));
+    }
+
+    // Test double encryption and decryption
+    @Test
+    void testDoubleRoundTrip() {
+        String text = "Hello World 123";
+        String doubleEncryptedText = this.cipher.encrypt(this.cipher.encrypt(text));
+        String doubleDecryptedText = this.cipher.decrypt(this.cipher.decrypt(doubleEncryptedText));
+        assertEquals(text, doubleDecryptedText);
+    }
+
+    // Test repeated instantiation
+    @Test
+    void testRepeatedInstantiation() throws InvalidCipherKeyException {
+        Cipher cipher1 = new Cipher();
+        Cipher cipher2 = new Cipher();
+        String text = "test";
+        assertEquals(cipher1.encrypt(text), cipher2.encrypt(text));
+        assertEquals(cipher1.decrypt(cipher2.encrypt(text)), text);
+    }
+
     // Test with real data files - carnivore.txt encryption
     @Test
     void testCarnivoreEncryption() throws Exception {
