@@ -48,7 +48,7 @@ void validateArgs(String args[])
     //check file number is valid and in correct format
     if args.length >= 1
         fileNumber = args[0]
-        if fileNumber = null OR !FILE_NUMBER.matcher(fileNumber).matches()
+        if fileNumber = null OR does not match the two-digit pattern
             throw new IllegalArgumentException
 
     //check that given cipher key isnt blank
