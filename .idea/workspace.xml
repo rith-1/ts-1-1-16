@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c96c2614-57ab-44c1-82df-5c75ca329a31" name="Changes" comment="added:&#10;- cipher utility class, tests, docs&#10;- test data (data/)">
-      <change afterPath="$PROJECT_DIR$/data/carnivore.cip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/carnivore.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/cointelpro.cip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/cointelpro.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/CIPHER.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utilities/Cipher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utilities/CipherInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utilities/InvalidCipherKeyException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/utilities/CipherTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ciphers/key.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ciphers/key.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Cipher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/CipherTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/CIPHER.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/CIPHER.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/TopSecret.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TopSecret.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Cipher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Cipher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/CipherInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/CipherInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/InvalidCipherKeyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/InvalidCipherKeyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/utilities/CipherTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utilities/CipherTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +58,7 @@
     <urls />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -76,42 +68,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Gradle.CipherTest (1).executor": "Run",
-    "Gradle.CipherTest.executor": "Run",
-    "Gradle.CipherTest.testCipherKeyMissingFile.executor": "Run",
-    "Gradle.CipherUtilityTest.executor": "Run",
-    "Gradle.ts-1-1-16 [:CipherUtility.main()].executor": "Run",
-    "Gradle.ts-1-1-16 [:TopSecret.main()].executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHELLCHECK.PATH": "/Users/sachinkhanal/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/sachinkhanal/Library/CloudStorage/OneDrive-UniversityofVirginia/UVA Classes/SPRING 2026/CS 3140/Homeworks/Homework2/ts-1-1-16",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Gradle.CipherTest (1).executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CipherTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CipherTest.testCipherKeyMissingFile.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CipherUtilityTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ts-1-1-16 [:CipherUtility.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ts-1-1-16 [:TopSecret.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/sachinkhanal/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sachinkhanal/Library/CloudStorage/OneDrive-UniversityofVirginia/UVA Classes/SPRING 2026/CS 3140/Homeworks/Homework2/ts-1-1-16&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/java" />
@@ -263,6 +255,8 @@
       <workItem from="1770314957508" duration="12000" />
       <workItem from="1770315137775" duration="670000" />
       <workItem from="1770498462666" duration="1956000" />
+      <workItem from="1770744429507" duration="2205000" />
+      <workItem from="1770914185716" duration="1280000" />
     </task>
     <task id="LOCAL-00001" summary="added markdown boiler">
       <option name="closed" value="true" />

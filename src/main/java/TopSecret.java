@@ -1,5 +1,5 @@
 /**
- * Commmand Line Utility
+ * Command Line Utility
  */
 public class TopSecret {
 }
