@@ -88,13 +88,14 @@ class CipherTest {
         assertNull(cipher.decipher("greetings", cipher.getCipher()));
     }
 
+
     @Test
-    void decipher_emptyActualAndEmptyCipher_returnsEmptyString() {
+    void decipher_emptyActualAndEmptyCipher_returnsOriginalText() {
         Cipher cipher = new Cipher();
-        cipher.setActual("");          // actual = ""
-        // cipher is "" by default
-        assertEquals("", cipher.decipher("sun", cipher.getCipher()));
+        cipher.setActual("");
+        assertEquals("sun", cipher.decipher("sun", cipher.getCipher()));
     }
+
 
     @Test
     void decipher_emptyCipherWithNonEmptyActual_returnsNull() {

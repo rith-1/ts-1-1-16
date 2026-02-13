@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,11 +74,11 @@ public class ProgramControllerTest {
 
     // Be able to print/read the text files with key
     @Test
-    public void testDisplayFileWithKey() {
+    public void testDisplayFileWithKey() throws FileNotFoundException {
         when(mockFileHandler.getAvailableFiles()).thenReturn(List.of("secret.txt"));
         when(mockFileHandler.readFile("secret.txt")).thenReturn("XYZ");
 
-        when(mockCipher.loadKey("key.txt")).thenReturn(null);
+        doReturn(null).when(mockCipher).loadKey("key.txt");
 
         when(mockCipher.getCipher()).thenReturn("ABC");
         when(mockCipher.decipher("XYZ", "ABC")).thenReturn("DECODED");
@@ -88,6 +89,7 @@ public class ProgramControllerTest {
         verify(mockCipher).loadKey("key.txt");
         verify(mockCipher).decipher("XYZ", "ABC");
     }
+
 
     // Be able to check valid user inputs and catch errors
     @Test
