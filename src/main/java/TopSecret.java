@@ -38,20 +38,22 @@ public class TopSecret {
             //if there are no arguments, list the numbered files available
             if (args.length == 0){
                 //calls method to display the available files
-                user.listFiles();
+                System.out.println(user.listFiles());
+
                 //update testing variable
                 testing = 0;
             }
             //if there is one argument, open the file at that index (use the default key)
             else if (args.length == 1){
                 //calls method to display the files
-                user.displayFile(args[0],null); //pass the file number and no key
+                System.out.println(user.displayFile(args[0],null)); //pass the file number and no key
                 //update testing variable
                 testing = 1;
             }
             //if two args, display the file at the index of the first argument and the key provided by the second argument
             else{ //after validating, the else would just be when args.length == 2
-                user.displayFile(args[0],args[1]); //pass file number and key
+                // random
+                System.out.println(user.displayFile(args[0],args[1])); //pass file number and key
                 testing = 2; //set testing flag
             }
 

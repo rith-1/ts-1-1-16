@@ -17,7 +17,7 @@ public class FileHandler {
             return files; // return empty list
         }
 
-        File[] fileArray = dataDir.listFiles((dir, name) -> name.endsWith(".txt"));
+        File[] fileArray = dataDir.listFiles((dir, name) -> (name.endsWith(".txt") || name.endsWith(".cip")));
         if (fileArray != null) {
             for (File file : fileArray) {
                 files.add(file.getName());

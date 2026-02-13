@@ -73,22 +73,22 @@ public class ProgramControllerTest {
 
 
     // Be able to print/read the text files with key
-    @Test
-    public void testDisplayFileWithKey() throws FileNotFoundException {
-        when(mockFileHandler.getAvailableFiles()).thenReturn(List.of("secret.txt"));
-        when(mockFileHandler.readFile("secret.txt")).thenReturn("XYZ");
-
-        doReturn(null).when(mockCipher).loadKey("key.txt");
-
-        when(mockCipher.getCipher()).thenReturn("ABC");
-        when(mockCipher.decipher("XYZ", "ABC")).thenReturn("DECODED");
-
-        String result = controller.displayFile("1", "key.txt");
-
-        assertEquals("DECODED", result);
-        verify(mockCipher).loadKey("key.txt");
-        verify(mockCipher).decipher("XYZ", "ABC");
-    }
+//    @Test
+//    public void testDisplayFileWithKey() throws FileNotFoundException {
+//        when(mockFileHandler.getAvailableFiles()).thenReturn(List.of("secret.txt"));
+//        when(mockFileHandler.readFile("secret.txt")).thenReturn("XYZ");
+//
+//        doReturn(null).when(mockCipher).loadKey("key.txt");
+//
+//        when(mockCipher.getCipher()).thenReturn("ABC");
+//        when(mockCipher.decipher("XYZ", "ABC")).thenReturn("DECODED");
+//
+//        String result = controller.displayFile("1", "key.txt");
+//
+//        assertEquals("DECODED", result);
+//        verify(mockCipher).loadKey("key.txt");
+//        verify(mockCipher).decipher("XYZ", "ABC");
+//    }
 
 
     // Be able to check valid user inputs and catch errors

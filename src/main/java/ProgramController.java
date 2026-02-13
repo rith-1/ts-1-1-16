@@ -58,9 +58,13 @@ public class ProgramController {
             // Read raw contents
             String rawText = fileHandler.readFile(filename);
 
+            if (filename.endsWith(".txt")) {
+                return rawText;
+            }
+
             // If no key provided, return raw text
             if (keyPath == null || keyPath.isBlank()) {
-                return rawText;
+                keyPath = "ciphers/key.txt";
             }
 
             // Load key and decipher
