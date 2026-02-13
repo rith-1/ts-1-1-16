@@ -1,6 +1,6 @@
-// cipher
+// Cipher
 // 2/5/26
-// Aaryav Walter
+// Aaryav Walter (D)
 
 OVERVIEW
 // cipher.txt receives two strings
@@ -44,3 +44,16 @@ TEST
 // tests for actual accessor method
 // 1. return actual when modified
 // 2. return default actual
+
+UML DIAGRAM
+Cipher
+- - - - - - - -
+- actual: String
+- cipher: String
+- - - - - - - -
++loadKey(String): String
++decipher(String, String): String
++getCipher(): String
++getActual(): String
++setCipher(String)
++setActual(String)

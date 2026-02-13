@@ -5,13 +5,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.FileNotFoundException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
+ * commented tests:
  * cipherMockitoTest class simulates the cipher object using a simple mocking test
  * cipherMockitoTest class mocks the cipher decipher method
+ * the above tests have been commented out because cipher does not contain
+ * concrete dependencies to test
+ *
+ * actual tests:
+ * loadKey method is tested against the file not found error and returns the file not
+ * found method when an invalid file path is delivered as a parameter to the behavior
+ * decipher method is tested against same and different sized, invalid and valid,
+ * and different combinations of the global cipher and actual string variables for correctness
+ * the accessor methods for both global variables are tested for correctness using the mutator methods
+ *
+ * references:
  * please note that Microsoft Copilot was used to streamline test creation process
  * by manual input of strategies and different test design frameworks to simulate
  * dependencies and objects using IntelliJ IDEA and Mockito test framework as well
@@ -20,8 +32,9 @@ import static org.mockito.Mockito.*;
  * @author Aaryav Walter, references as cited above including Microsoft Copilot
  * @version 1.0
  */
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
 class CipherTest {
+/*
     @Test
     void spy_callsRealDecipher_andIsVerifiedByMockito() {
         // instantiate cipher object
@@ -41,11 +54,9 @@ class CipherTest {
         assertEquals("acb", result);
         verify(spyCipher).decipher("xzy", "xyz");
     }
-
+*/
     @Test
-    void loadKeyOne() throws FileNotFoundException {
-        // test one
-        // throws file not found exception because nonexistent file path is inputted
+    void loadKeyOne() {
         Cipher loadKeyOne = new Cipher();
         assertThrows(FileNotFoundException.class, () -> {
             loadKeyOne.loadKey("this_file_does_not_exist.txt");
@@ -53,54 +64,51 @@ class CipherTest {
     }
 
     @Test
-    void loadKeyTwo() throws FileNotFoundException {
-        // test two
-        // throws file not found exception because file path parameter is empty string
+    void loadKeyTwo() {
         Cipher loadKeyTwo = new Cipher();
-        loadKeyTwo.setCipher("newcipher");
         assertThrows(FileNotFoundException.class, () -> {
             loadKeyTwo.loadKey("");
         });
     }
 
     @Test
-    void decipher() {
-        // test one
-        // success
-        Cipher decipherOne = new Cipher();
-        decipherOne.setActual("abcdefghijklmnopqrstuvwxyz");
-        decipherOne.setCipher("cdefghijklmnopqrstuvwxyzab");
-        assertEquals("hello", decipherOne.decipher("jgnnq", decipherOne.getCipher()));
+    void decipher_successCase() {
+        Cipher cipher = new Cipher();
+        cipher.setActual("abcdefghijklmnopqrstuvwxyz");
+        cipher.setCipher("cdefghijklmnopqrstuvwxyzab");
+        assertEquals("hello", cipher.decipher("jgnnq", cipher.getCipher()));
+    }
 
-        // test two
-        // global variables have different sizes
-        // fails
-        Cipher decipherTwo = new Cipher();
-        decipherTwo.setActual("abcdefghijklmnopqrstuvwxyz");
-        decipherTwo.setCipher("cdefghijklmnopqrstuvwxyzabr");
-        assertEquals(null, decipherTwo.decipher("greetings", decipherTwo.getCipher()));
+    @Test
+    void decipher_lengthMismatch_returnsNull() {
+        Cipher cipher = new Cipher();
+        cipher.setActual("abcdefghijklmnopqrstuvwxyz");
+        cipher.setCipher("cdefghijklmnopqrstuvwxyzabr"); // length 27 vs 26
+        assertNull(cipher.decipher("greetings", cipher.getCipher()));
+    }
 
-        // test three
-        // actual string instantiated to empty string
-        // cipher key string not instantiated
-        // fails
-        Cipher decipherThree = new Cipher();
-        decipherThree.setActual("");
-        assertEquals(null, decipherThree.decipher("sun", decipherThree.getCipher()));
+    @Test
+    void decipher_emptyActualAndEmptyCipher_returnsEmptyString() {
+        Cipher cipher = new Cipher();
+        cipher.setActual("");          // actual = ""
+        // cipher is "" by default
+        assertEquals("", cipher.decipher("sun", cipher.getCipher()));
+    }
 
-        // test four
-        // cipher key string not instantiated
-        // fails
-        Cipher decipherFour = new Cipher();
-        decipherFour.setActual("abcdefghijklmnopqrstuvwxyz");
-        assertEquals(null, decipherFour.decipher("value", decipherFour.getCipher()));
+    @Test
+    void decipher_emptyCipherWithNonEmptyActual_returnsNull() {
+        Cipher cipher = new Cipher();
+        cipher.setActual("abcdefghijklmnopqrstuvwxyz"); // length 26
+        // cipher is "" -> length 0, mismatch
+        assertNull(cipher.decipher("value", cipher.getCipher()));
+    }
 
-        // test five
-        // actual string not instantiated
-        // fails
-        Cipher decipherFive = new Cipher();
-        decipherFive.setCipher("cdefghijklmnopqrstuvwxyzab");
-        assertEquals(null, decipherFive.decipher("anything", decipherFive.getCipher()));
+    @Test
+    void decipher_nonEmptyCipherWithEmptyActual_returnsNull() {
+        Cipher cipher = new Cipher();
+        cipher.setCipher("cdefghijklmnopqrstuvwxyzab"); // length 26
+        // actual is "" -> length 0, mismatch
+        assertNull(cipher.decipher("anything", cipher.getCipher()));
     }
 
     @Test
@@ -119,13 +127,15 @@ class CipherTest {
     void getActual() {
         // test one
         Cipher getActualOne = new Cipher();
-        getActualOne.setCipher("learning");
-        assertEquals("learning", getActualOne.getCipher(), "return 'learning'");
+        getActualOne.setActual("learning");
+        assertEquals("learning", getActualOne.getActual(), "return 'learning'");
 
         // test two
         Cipher getActualTwo = new Cipher();
-        assertEquals("", getActualTwo.getCipher(), "return empty string");
+        assertEquals("", getActualTwo.getActual(), "return empty string");
     }
+
+    /*
     // mock cipher object
     @Mock
     Cipher cipher;
@@ -142,4 +152,5 @@ class CipherTest {
         assertEquals("hello", result);
         verify(cipher).decipher("abc", "xyz");
     }
+     */
 }
