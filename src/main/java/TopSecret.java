@@ -3,6 +3,7 @@ public class TopSecret {
         FileHandler handler = new FileHandler();
         ProgramController controller = new ProgramController(handler);
 
-        controller.run(args);
+        String output = controller.run(args);
+        System.out.println(output);
     }
 }
