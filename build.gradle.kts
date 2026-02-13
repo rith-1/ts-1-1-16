@@ -9,17 +9,24 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 dependencies {
     // JUnit 5
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // Mockito (core + JUnit 5)
+    // Mockito (Java 25 compatible)
     testImplementation("org.mockito:mockito-core:5.12.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
 }
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("-Dnet.bytebuddy.experimental=true")
 }
