@@ -1,4 +1,3 @@
-import fileRead.fileHandler;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class fileHandlerTest {
     @Test
     void checkForFileReturn(){
-        fileHandler filehandler = new fileHandler();//filehandler instance
+        FileHandler filehandler = new FileHandler();//filehandler instance
         List<String> files = filehandler.getFiles();
         //calls getfiles method and stores in string
 
@@ -21,7 +20,7 @@ public class fileHandlerTest {
 
     @Test
     void checkMissingFile(){
-        fileHandler filehandler = new fileHandler();
+        FileHandler filehandler = new FileHandler();
 
         try{
             filehandler.readFile("test.txt");
@@ -35,7 +34,7 @@ public class fileHandlerTest {
 
     @Test
     void readFileTest(){
-        fileHandler filehandler = new fileHandler();
+        FileHandler filehandler = new FileHandler();
         String realFile = filehandler.readFile("carnivore.txt");
         //store real file to be tested
 
