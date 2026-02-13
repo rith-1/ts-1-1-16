@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d74008-8339-4675-89e0-143d7228c8cb" name="Changes" comment="finished" />
+    <list default="true" id="11d74008-8339-4675-89e0-143d7228c8cb" name="Changes" comment="finished">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ProgramController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ProgramController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,13 +38,13 @@
     <commands />
     <urls />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.ts-1-1-16 [:TopSecret.main()].executor": "Run",
-    "Gradle.ts-1-1-16 [:fileRead.TopSecret.main()].executor": "Run",
-    "git-widget-placeholder": "main"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.ts-1-1-16 [:TopSecret.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ts-1-1-16 [:fileRead.TopSecret.main()].executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/fileRead" />

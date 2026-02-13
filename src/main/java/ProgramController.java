@@ -12,7 +12,7 @@ public class ProgramController {
     public void run(String[] args) {
         //gets the available files from handler
         List<String> availableFiles = fileHandler.getFiles();
-        if(args.length == 9) {
+        if(args.length == 0) {
             displayFileList(availableFiles);
             return;
         }
